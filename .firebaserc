@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "my-school-7ef8f",
+    "my-school-staging": "my-school-7ef8f"
+  },
+  "targets": {},
+  "etags": {}
+}

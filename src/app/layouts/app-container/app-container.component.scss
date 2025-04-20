@@ -1,0 +1,18 @@
+.container-layout{
+    width: 100%;
+    height: auto;
+    .header-layout{
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 2px 0px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        label{
+            font-size: 1.3rem;
+        }    
+        .icon-header-layout{
+            color: #0056b3;
+            margin-right: 10px;
+            //font-size: 1.8rem;
+        }
+    }
+}

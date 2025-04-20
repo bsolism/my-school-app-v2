@@ -1,0 +1,90 @@
+/* You can add global styles to this file, and also import other style files */
+// @import "~devextreme/dist/css/dx.common.css";
+
+
+.dx-datagrid-headers .dx-header-row {  
+    //background-color: hsl(180, 9%, 82%);
+   // color: #363434;
+    font-weight: 600;
+    font-size: 10px;
+  } 
+
+  .etiqueta {
+    display: block;
+    width: auto;
+    margin: 0px 0px 0px 0px !important;
+  }
+
+  .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-sort, .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter, .dx-datagrid .dx-column-indicators .dx-sort.dx-sort{
+    font-size: 10px;
+  }
+
+  .dx-swatch-dark .dx-editor-cell .dx-texteditor:not(.dx-tagbox) .dx-texteditor-input {
+    background-color: none !important;
+  }
+
+  .dx-button{
+    height: 25px;
+  }
+  .dx-datagrid-header-panel{
+    margin-bottom: -20px;
+  }
+
+  .datagrid-text-content{
+    font-size: 12px;
+  }
+
+  .dx-texteditor-input-container{
+    font-size: 12px;
+    height: 2rem;
+  }
+
+  .dx-datagrid-container.dx-filter-menu .dx-menu-item-content .dx-icon.dx-icon-filter-operation-default, .dx-datagrid.dx-filter-menu .dx-menu-item-content .dx-icon.dx-icon-filter-operation-default {
+    font-size: 12px;
+    justify-content: center;
+  }
+
+  .dx-datagrid .dx-row > td{
+    font-size: 12px;
+    padding: none !important;
+  }
+  .dx-datagrid-headers .dx-datagrid-table .dx-row > td{
+    font-size: 12px;
+  }
+
+  .dx-button-has-icon.dx-button-has-text .dx-button-content{
+    font-size: 12px;
+  }
+  .dx-datagrid .dx-row > td{
+    padding: 5px;
+  }
+  .dx-datagrid .dx-datagrid-table .dx-header-row > td{
+    padding: 5px;
+  }
+
+  .dx-dropdowneditor-overlay .dx-list-group-header, .dx-dropdowneditor-overlay .dx-list-item-content{
+    font-size: 12px;
+  }
+
+  .dx-selectbox .dx-texteditor-input:read-only{
+    font-size: 12px;
+  }
+
+  .custom-swal-popup {
+    width: 400px; /* Cambia el ancho según sea necesario */
+    height: auto; /* Ajusta la altura automáticamente o usa un valor fijo, como 200px */
+    padding: 10px; /* Opcional: ajusta el espacio interior */
+  }
+  
+  /* Reducir el tamaño de la fuente del título */
+  .custom-swal-title {
+    font-size: 12px; /* Ajusta el tamaño deseado */
+    line-height: 1.5; /* Opcional: ajusta el espaciado entre líneas */
+  }
+  div:where(.swal2-icon).swal2-warning.swal2-icon-show{
+    font-size: 12px !important;
+  }
+
+  h2{
+    font-size: 14px !important;
+  }

@@ -1,0 +1,84 @@
+<ng-container>
+    <app-container icon="airport_shuttle" title="Transporte" [sizeIcon]="25"></app-container>
+    <div class="table-alumns">
+        <dx-data-grid [columns]="Columns" [dataSource]="dataSource"
+        (onToolbarPreparing)="onToolbarPreparing($event)">
+            <!-- <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true" placeholder="Buscar..."></dxo-search-panel> -->
+            <dxo-header-filter [visible]="true" [allowSearch]="false"></dxo-header-filter>
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+            <dxo-export  [allowExportSelectedData]="true" [enabled]="true"  fileName="fileName"></dxo-export>
+        </dx-data-grid>
+    </div>
+</ng-container>
+<dx-popup
+  [width]="popupWidth"
+  [height]="popupHeight"
+  [hideOnOutsideClick]="true"
+  [showCloseButton]="true"
+  [visible]="popupVisible"
+  (onHiding)="popupVisible = false"
+  title="Asignar Transporte"
+>
+<form [formGroup]="transportForm">
+  <div  *dxTemplate="let data of 'content'">
+    <div>
+      <div class="content-popup">
+        <div class="row-popup">
+            <dx-select-box label="Nombre" formControlName="alumnId" [items]="alumns" 
+              [displayExpr]="displayFullName" valueExpr="id" [searchEnabled]="true">
+            </dx-select-box>
+    
+        </div>
+        <div class="row-popup">
+            <dx-text-box label="Dirección" formControlName="address"></dx-text-box>
+        </div>
+        <div class="row-popup">
+          <dx-select-box label="Tipo de Transporte" formControlName="typeTrip" [items]="tipoViajeSource" [searchEnabled]="true">
+          </dx-select-box>
+        </div>
+        <div class="row-popup">
+          <div id="fileuploader-container">
+            <dx-file-uploader
+              selectButtonText="Croquis"
+              [(value)]="fileValue"
+              
+              labelText=""
+              accept="image/*"
+              uploadMode="useForm"
+              [inputAttr]="{ 'aria-label': 'Select Photo' }"
+            >
+            </dx-file-uploader>
+          </div>
+          <dx-button
+              icon="eyeopen"
+              (onClick)="onClickCroquis()">
+          </dx-button>
+        </div>
+        <div class="row-popup">
+          <label>Selecciona una ubicación</label>
+          <div class="map-container">
+            <div class="map-frame">
+              <div id="map"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row-popup">
+            <dx-number-box label="Precio" formControlName="fare"
+              [showClearButton]="true"
+              [format]="customCurrencyFormat"
+              [min]="0.00"
+              [step]="0.01">
+            </dx-number-box>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+  <dxi-toolbar-item
+    widget="dxButton"
+    toolbar="bottom"
+    location="center" 
+    cssClass="full-width-button"   
+    [options]="computedBookButtonOptions">
+  </dxi-toolbar-item>
+</dx-popup>

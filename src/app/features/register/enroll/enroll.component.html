@@ -1,0 +1,129 @@
+<ng-container>
+    <app-container icon="bookmarks" title="Matricular" [sizeIcon]="25"></app-container>
+    <!-- <div class="unavaliable" *ngIf="!isMatriculaOpen">
+        Debe existir una matricula abierta
+    </div> -->
+    <div class="form-container" >
+        <div class="form-row">
+            <dx-text-box stylingMode="outlined" labelMode="floating" label="Nombre | DNI | Code"
+                style="width: 22%;" [(value)]="term"></dx-text-box>
+            <dx-button icon="search" (onClick)="searchAlumn()" style="margin-left: 5px;"> </dx-button>
+        </div>
+        <div class="form-row">
+            <dx-data-grid [dataSource]="filteredAlumn"> 
+                <dxo-selection mode="single" selectAllMode="page"></dxo-selection>
+                <dxi-column dataField="id" dataType="string" caption="Código" width="60" [allowEditing]="false"></dxi-column>
+                <dxi-column dataField="fullName" dataType="string" caption="Nombre" [allowEditing]="false"></dxi-column>
+                <dxi-column dataField="dni" editorType="dxCheckBox" caption="DNI" [allowEditing]="false"></dxi-column>
+                <dxi-column dataField="lastGrade" caption="Grado Anterior" [allowEditing]="false"></dxi-column>
+                <dxi-column dataField="nextGrade" caption="Grado Actual"  [allowEditing]="true">
+                    <dxo-lookup
+                        [dataSource]="grados"
+                        valueExpr="id" 
+                        displayExpr="courseName"> 
+                    </dxo-lookup>
+                </dxi-column>
+                <dxi-column dataField="state" caption="Estado"></dxi-column>
+            </dx-data-grid>
+        </div>
+        <div class="form-row button-enroll">
+            <dx-button
+                stylingMode="contained"
+                text="Matricular"
+                type="default"
+                width="15%"
+                [useSubmitBehavior]="true"
+                (onClick)="onMatricula()"
+                >
+            </dx-button> 
+        </div>
+
+    </div>
+</ng-container>
+<dx-popup
+  [width]="560"
+  [height]="520"
+  [hideOnOutsideClick]="true"
+  [showCloseButton]="true"
+  [(visible)]="popupVisible"
+  title="Matricula"
+>
+<form [formGroup]="enrollForm">
+  <div  *dxTemplate="let data of 'content'">
+    <div>
+      <div class="caption">Alumno</div>
+      <div class="content-popup">
+        <div class="row-popup">
+            <div>Nombre</div>
+            <div>{{infoPopup.fullName}}</div>
+        </div>
+        <div class="row-popup">
+            <div>Identidad</div>
+            <div>{{infoPopup.dni}}</div>
+        </div>
+        <div class="row-popup">
+            <div>Grado Anterior</div>
+            <div>{{infoPopup.lastGrade}}</div>
+        </div>
+        <div class="row-popup">
+            <div>Grado a matricular</div>
+            <div *ngIf="infoPopup.nextGrade">{{getGradoName(infoPopup.nextGrade)}}</div>
+            <dx-select-box
+                *ngIf="!infoPopup.nextGrade"
+                placeholder="Grado"
+                displayExpr="courseName"
+                valueExpr="id"
+                id="courseName"
+                formControlName="nextGrade"
+                [items]="grados"
+                [inputAttr]="{ 'aria-label': 'Search Mode' }"
+                class="select-popup"
+                (valueChange)="onValueChangedGrade($event)">
+            </dx-select-box>
+        </div>
+        <!-- <div class="row-popup">
+            <div>Tipo Matrícula</div>
+            <dx-select-box
+                placeholder="Tipo"
+                formControlName="nextGrade"
+                [items]="['Ordinaria', 'Extraordinaria']"
+                [inputAttr]="{ 'aria-label': 'Search Mode' }"
+                class="select-popup">
+            </dx-select-box>
+        </div> -->
+        <!-- <div class="row-popup">
+            <div>Defina primera mensualidad</div>
+            <dx-select-box
+                placeholder="Tipo"
+                formControlName="nextGrade"
+                [items]="['Ordinaria', 'Extraordinaria']"
+                [inputAttr]="{ 'aria-label': 'Search Mode' }"
+                class="select-popup">
+            </dx-select-box>
+        </div> -->
+        <!-- <div class="row-popup">
+            <div>¿Requiere Transporte?</div>
+            <div class="dx-check">
+                <dx-check-box
+                    formControlName="requireTransport"
+                    style="margin-left: 10px;"
+                    [elementAttr]="{ 'aria-label': 'Checked' }"
+                ></dx-check-box>
+            </div>       
+        </div> -->
+        <!-- <div class="row-popup">
+            <div>Total</div>
+            <div>{{ precioGrado | currency:'LPS ':'symbol':'1.2-2' }}</div>       
+        </div> -->
+      </div>
+    </div>
+  </div>
+</form>
+  <dxi-toolbar-item
+    widget="dxButton"
+    toolbar="bottom"
+    location="center" 
+    cssClass="full-width-button"   
+    [options]="bookButtonOptions">
+  </dxi-toolbar-item>
+</dx-popup>

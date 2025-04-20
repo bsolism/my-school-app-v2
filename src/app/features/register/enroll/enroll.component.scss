@@ -1,0 +1,100 @@
+.form-container{
+    width: 100%;
+    .form-row{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-top: 10px;
+    }
+    .button-enroll{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .detail-enroll{
+        border: 1px solid;
+        margin-top: 10px;
+    }
+    
+}
+
+.label {
+    font-size: 12px;
+  }
+  
+  ::ng-deep .demo-container {
+    height: 450px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden !important;
+    gap: 40px;
+  }
+  
+  ::ng-deep .button-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  ::ng-deep .dx-popup-content {
+    font-size: 12px;
+    overflow: hidden !important;
+    max-height: 100% !important;
+  }
+
+  ::ng-deep .dx-overlay-content {
+    overflow: hidden !important;
+  }
+  
+  ::ng-deep .dx-popup-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .caption {
+    padding-bottom: 8px;
+    font-weight: 500;
+    margin-top: 10px;
+  }
+  
+  .content-popup {
+    display: flex;
+    flex-direction: column;
+    .row-popup{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        margin-right: 2rem;
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 2px 0px;
+       
+    }
+
+  }
+
+  ::ng-deep .dx-toolbar .dx-toolbar-item .dx-button {
+    flex-grow: 1;
+    width: 100% !important;
+  }
+
+  .unavaliable{
+    border: 1px solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 2rem;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgb(254, 137, 94);
+    color: white;
+    font-weight: bold;
+  }

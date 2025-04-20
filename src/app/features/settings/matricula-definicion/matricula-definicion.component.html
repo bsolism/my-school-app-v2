@@ -1,0 +1,82 @@
+<ng-container>
+    <app-container icon="bookmarks" title="Definición matrículas" [sizeIcon]="25"></app-container>
+    <div class="form">
+        <form [formGroup]="matriculaForm">
+            <div class="row">
+                <dx-number-box stylingMode="outlined" labelMode="floating" label="Buscar por año"
+                        style="width: 25%;" [(value)]="yearSearch" type="number">
+                </dx-number-box>
+                <dx-button icon="search" style="width: 30px; height: 30px; margin-top: 5px;"
+                (onClick)="findByYear()"></dx-button>               
+            </div>
+            <div class="row">
+                <dx-text-box stylingMode="outlined" labelMode="floating" label="Periodo Matricula"
+                        formControlName="name" style="width: 25%;">
+                </dx-text-box>
+                <dx-date-range-box stylingMode="outlined" labelMode="floating"
+                    formGroupName="dateRange"
+                    [value]="matriculaDate"
+                    style="margin-top: 5px; width: 50%; margin-left: 10px;"
+                    startDateLabel="Fecha Inicio"
+                    endDateLabel="Fecha Final"
+                    displayFormat="dd/MM/yyyy"
+                    (onValueChanged)="currentValueChanged($event, 'dateRange')"
+                >
+                </dx-date-range-box>
+            </div>
+            <div class="row">
+                <dx-select-box
+                    placeholder="Año lectivo"
+                    formControlName="yearEscolar"
+                    [items]="yearsEscolar"
+                    style="width: 25%;">
+                </dx-select-box>
+                <dx-date-range-box stylingMode="outlined" labelMode="floating"
+                    style="margin-top: 5px; width: 50%; margin-left: 10px;"
+                    startDateLabel="Fecha Inicio"
+                    endDateLabel="Fecha Final"
+                    [value]="yearEscolar"
+                    displayFormat="dd/MM/yyyy"
+                    (onValueChanged)="currentValueChanged($event, 'yearEscolarDates')"
+                >
+                </dx-date-range-box>                               
+            </div>
+            <div class="row">
+                <dx-select-box
+                    placeholder="Estado"
+                    formControlName="isOpen"
+                    displayExpr="name"
+                    valueExpr="id"
+                    [items]="estadoMatricula"
+                    label="Estado"
+                    style="width: 25%;">
+                </dx-select-box>
+                <div style="margin-left: 10px;">¿Activo?</div>
+                <div class="dx-check">
+                    <dx-check-box
+                        style="margin-left: 10px;"
+                        formControlName="isActive"
+                        [elementAttr]="{ 'aria-label': 'Checked' }"
+                    ></dx-check-box>
+                </div>                 
+            </div>
+            <div class="row">
+                <dx-data-grid [dataSource]="setDataSourseCursos" 
+                    (onToolbarPreparing)="onToolbarPreparing($event)">
+                    <dxo-editing mode="row" [allowUpdating]="true" [useIcons]="true"></dxo-editing>
+                    <dxo-scrolling mode="virtual"></dxo-scrolling>
+                    <dxo-export  [allowExportSelectedData]="true" [enabled]="true"  fileName="fileName"></dxo-export>
+                    <dxi-column dataField="courseName" dataType="string" caption="Nombre" [allowEditing]="false"></dxi-column>
+                    <dxi-column dataField="courseDescription" dataType="string" caption="Descripción" [allowEditing]="false"></dxi-column>
+                    <dxi-column dataField="limit" dataType="string" caption="Limite" width="80" [allowEditing]="false"></dxi-column>
+                    <dxi-column dataField="precio" dataType="number" caption="Matricula"
+                    [format]="{ type: 'fixedPoint', precision: 2 }" [customizeText]="formatCurrency"></dxi-column>
+                    <dxi-column dataField="mensualidad" dataType="number" caption="Mensualidad"
+                    [format]="{ type: 'fixedPoint', precision: 2 }" [customizeText]="formatCurrency"></dxi-column>
+                </dx-data-grid>
+            </div>
+        </form>
+    </div>
+        
+            
+</ng-container>

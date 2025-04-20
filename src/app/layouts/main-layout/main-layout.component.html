@@ -1,0 +1,9 @@
+<ng-container>
+  <app-side-nav title={{appInfo.title}}>
+    <router-outlet></router-outlet>
+    <app-footer>
+      Copyright © 2011-{{appInfo.currentYear}} {{appInfo.title}} Inc.
+      <br/>      
+    </app-footer>
+  </app-side-nav>
+</ng-container>

@@ -1,0 +1,93 @@
+<div class="header-form">
+  <mat-icon class="icon-header-form" fontIcon="create_new_folder"></mat-icon>
+  <label>Registro Alumno</label>
+</div>
+
+<form [formGroup]="registerForm" class="form-container">
+<div class="section">
+  <div class="title-section">Información Personal</div>
+  <div class="row-names-container">
+    <div class="row-name">
+      <div class="row">
+        <dx-text-box label="Primer Nombre" formControlName="firstName"></dx-text-box>
+        <dx-text-box label="Segundo Nombre" formControlName="secondName"></dx-text-box>
+      </div>
+      <div class="row">
+        <dx-text-box label="Primer Apellido" formControlName="lastName"></dx-text-box>
+        <dx-text-box label="Segundo Apellido" formControlName="secondLastName"></dx-text-box>
+      </div>
+      <div class="row">
+        <dx-date-box label="Fecha de Nacimiento" formControlName="dateOfBirth" type="date" displayFormat="dd/MM/yyyy"></dx-date-box>
+        <dx-text-box label="DNI" formControlName="dni" maxLength="15"  [mask]="dniMask"></dx-text-box>
+      </div>
+      <div class="row">
+        <dx-select-box label="Sexo" formControlName="sex" [items]="sexs"></dx-select-box>
+        <dx-select-box label="Tipo Sangre" formControlName="bloodType" [items]="bloodType"></dx-select-box>
+      </div>
+
+    </div>
+    <div class="image-container">
+        <div class="image" [style.background-image]="'url(' + imageSrc + ')'"></div>
+        <input type="file" id="fileInput" accept="image/*" (change)="onFileChange($event)" hidden>
+          <label for="fileInput" class="button">Cambiar</label>
+    </div>
+  </div>
+  <div class="row">
+    <dx-select-box label="País Nacimiento" formControlName="countryBorn" [items]="countries" 
+      displayExpr="name" valueExpr="id" [searchEnabled]="true" (valueChange)="onValueSelected($event,'countryBorn')"></dx-select-box>
+    <dx-select-box label="Departamento" formControlName="stateBorn" [items]="states"
+      displayExpr="name" valueExpr="id" [searchEnabled]="true" (valueChange)="onValueSelected($event,'stateBorn')"></dx-select-box>
+    <dx-select-box label="Ciudad" formControlName="cityBorn" [items]="cities"
+      displayExpr="name" valueExpr="id" [searchEnabled]="true"></dx-select-box>
+  </div>
+</div>
+
+<div class="section">
+  <div class="title-section">Contacto / Dirección</div>
+  <div class="row">
+    <dx-text-box label="Teléfono" formControlName="phone" mask="(+000) 0000-0000" ></dx-text-box>
+    <!-- <dx-text-box label="Correo" formControlName="email" mode="email"    [showClearButton]="true"
+    [validationError]="{ message: 'Por favor, ingresa un correo electrónico válido' }"></dx-text-box> -->
+    <dx-text-box  
+    label="Correo" 
+    formControlName="email" >
+    <dx-validator>
+        <dxi-validation-rule 
+            type="email" 
+            message="Por favor, ingresa un correo electrónico válido">
+        </dxi-validation-rule>
+        <dxi-validation-rule 
+            type="required" 
+            message="El correo es obligatorio">
+        </dxi-validation-rule>
+      </dx-validator>
+    </dx-text-box>
+  </div>
+  <div class="row">
+    <dx-select-box label="País" formControlName="countryResidence" [items]="countries" 
+      displayExpr="name" valueExpr="id" [searchEnabled]="true" (valueChange)="onValueSelected($event,'countryResidence')"></dx-select-box>
+    <dx-select-box label="Departamento" formControlName="stateResidence" [items]="currentStates"
+      displayExpr="name" valueExpr="id" [searchEnabled]="true" (valueChange)="onValueSelected($event,'stateResidence')"></dx-select-box>
+    <dx-select-box label="Ciudad" formControlName="cityResidence" [items]="currentCities"
+      displayExpr="name" valueExpr="id"[searchEnabled]="true"></dx-select-box>
+  </div>
+  <dx-text-box label="Dirección" formControlName="address"></dx-text-box>
+</div>
+
+<div class="section">
+  <div class="title-section">Personas de Contacto</div>
+  <dx-data-grid [columns]="Columns" [dataSource]="contacts">
+    <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true"></dxo-editing>
+  </dx-data-grid>
+</div>
+
+<div class="section">
+  <div class="title-section">Comentarios</div>
+  <dx-text-area formControlName="comment"></dx-text-area>
+</div>
+
+<div class="button-container">
+  <dx-button text="Guardar" type="default" (onClick)="onSaveClick()"></dx-button>
+</div>
+</form>
+  

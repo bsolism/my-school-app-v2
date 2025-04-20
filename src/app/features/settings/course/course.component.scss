@@ -1,0 +1,26 @@
+.form-course{
+    width: 100%;
+    margin-top: 1rem;
+    .row{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-items: center;
+        align-items: center;
+        margin-bottom: 10px;
+        .label-check{
+            font-size: 14px;
+            margin-left: 10px;
+            width: 22%;
+        }  
+        .dx-check{
+            margin-left: 10px;
+        }
+        .button{
+            display: flex;
+            flex-direction: row;
+            width: 30%;
+            justify-content: flex-end;
+        }
+    }
+}

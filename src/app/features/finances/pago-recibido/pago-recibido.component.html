@@ -1,0 +1,275 @@
+<ng-container>
+  <app-container icon="bookmarks" title="Pagos" [sizeIcon]="25"></app-container>
+  <div class="form-container">
+    <div class="form-row">
+      <dx-text-box
+        stylingMode="outlined"
+        labelMode="floating"
+        label="Nombre | DNI | Code"
+        style="width: 22%"
+        [(value)]="term"
+        (onEnterKey)="searchAlumn()"
+      ></dx-text-box>
+      <dx-button
+        icon="search"
+        (onClick)="searchAlumn()"
+        style="margin-left: 5px"
+      >
+      </dx-button>
+    </div>
+    <div class="form-row alumn-info">
+      <label>Código | Nombre: </label>
+      <span>&nbsp; &nbsp; {{ selectedAlumn?.id }}-{{ selectedAlumn?.fullName }}</span>
+    </div>
+    <div class="form-row alumn-info">
+      <label>Identidad: </label>
+      <span> &nbsp;&nbsp; &nbsp;{{ selectedAlumn?.dni }}</span>
+    </div>
+    <div class="form-row alumn-info">
+      <label>Grado:</label>
+      <span>&nbsp;&nbsp;&nbsp;{{ selectedAlumn?.gradoName }}</span>
+    </div>
+    <div class="form-row">
+      <dx-data-grid [dataSource]="pagosSource">
+        <dxi-column
+          dataField="descripcion"
+          dataType="string"
+          caption="Descripción"
+          [allowEditing]="false"
+        ></dxi-column>
+        <dxi-column
+          dataField="monto"
+          dataType="string"
+          caption="Mensualidad"
+          [allowEditing]="false"
+          [customizeText]="customizeCurrencyDisplay"
+        ></dxi-column>
+        <dxi-column
+          dataField="montoTransporte"
+          dataType="string"
+          caption="Transporte"
+          [allowEditing]="false"
+          [customizeText]="customizeCurrencyDisplay"
+        ></dxi-column>        
+        <dxi-column
+          dataField="fechaLimite"
+          dataType="date"
+          format="dd/MM/yyyy"
+          caption="Fecha Limite"
+          [allowEditing]="false"
+        ></dxi-column>
+        <dxi-column
+          dataField="estado"
+          dataType="string"
+          caption="Estado"
+          [allowEditing]="false"
+          [calculateCellValue]="getNombreEstado"
+        ></dxi-column>
+        <dxi-column
+          caption="Acción"
+          [width]="100"
+          cellTemplate="checkCell"
+        ></dxi-column>
+
+        <div *dxTemplate="let data of 'checkCell'">
+          <dx-check-box [(value)]="data.data.seleccionado" [disabled]="data.data.estado === 1"></dx-check-box>
+        </div>
+      </dx-data-grid>
+    </div>
+    <div class="form-row" style="justify-content: right">
+      <dx-button
+        text="Registrar Pago"
+        type="default"
+        icon="save"
+        stylingMode="contained"
+        (onClick)="onShowPopup()"
+      >
+      </dx-button>
+    </div>
+  </div>
+</ng-container>
+<dx-popup
+  [(visible)]="popupVisible"
+  [width]="600"
+  [height]="400"
+  [showTitle]="true"
+  title="Seleccione un alumno"
+>
+  <dx-data-grid
+    [dataSource]="alumns"
+    [hoverStateEnabled]="true"
+    [showBorders]="true"
+    [selection]="{ mode: 'single' }"
+    (onRowDblClick)="onSelectAlumn($event)"
+  >
+    <dxi-column
+      dataField="fullName"
+      caption="Nombre"
+      [width]="45 + '%'"
+    ></dxi-column>
+    <dxi-column dataField="dni" caption="DNI" [width]="25 + '%'"></dxi-column>
+    <dxi-column
+      dataField="gradoName"
+      caption="Grado"
+      [width]="30 + '%'"
+    ></dxi-column>
+  </dx-data-grid>
+</dx-popup>
+<dx-popup
+  [(visible)]="popupRecibidoVisible"
+  [width]="750"
+  [height]="'auto'"
+  [showTitle]="true"
+  title="Confirmar Pago"
+  [dragEnabled]="true"
+  [closeOnOutsideClick]="true"
+>
+  <div class="recibo-container" [formGroup]="pagoForm">    
+    <div id="recibo-pdf" class="recibo-scrollable">
+      <div class="recibo-header">
+        <div class="logo-container">
+          <img [src]="logo" alt="Logo Colegio" class="logo" />
+        </div>
+        <div class="header-content">
+          <h3 class="recibo-titulo">{{ appInfo.title }}</h3>
+          <p class="recibo-subtitulo">Recibo de Pago Oficial</p>
+        </div>
+        <div class="fecha-container">
+          <div class="recibo-fecha">
+            Fecha: <strong>{{ today | date : "dd/MM/yyyy" }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="student-info">
+        <div class="info-row">
+          <div class="info-label">Estudiante:</div>
+          <div class="info-value">
+            <strong>{{ selectedAlumn?.fullName }}</strong>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">DNI:</div>
+          <div class="info-value">{{ selectedAlumn?.dni }}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Grado:</div>
+          <div class="info-value">{{ selectedAlumn?.gradoName }}</div>
+        </div>
+      </div>
+      <table class="recibo-tabla">
+        <thead>
+          <tr>
+            <th>Descripción</th>
+            <th>Periodo</th>
+            <th style="text-align: right">Monto</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of reciboDataSource; track item.id) {
+            <tr>
+              <td>{{ item.descripcion }}</td>
+              <td>{{ item.periodo }}</td>
+              <td style="text-align: right">
+                {{ item.totalLinea| currency : "L." : "symbol" : "1.2-2" }}
+              </td>
+            </tr>
+          }
+        </tbody>
+        <tfoot>
+          <tr class="subtotal-row">
+            <td colspan="2">Subtotal</td>
+            <td style="text-align: right">
+              {{ calcularTotalPagos() | currency : "L." : "symbol" : "1.2-2" }}
+            </td>
+          </tr>
+          <tr class="descuento-row">
+            <td colspan="2">Descuento</td>
+            <td style="text-align: right">
+              {{ calcularDescuento() | currency : "L." : "symbol" : "1.2-2" }}
+            </td>
+          </tr>
+          <tr class="recibo-total">
+            <td colspan="2">Total</td>
+            <td style="text-align: right">
+              {{ calcularTotalFinal() | currency : "L." : "symbol" : "1.2-2" }}
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="payment-section">
+        <div class="form-section payment-type">
+          <dx-select-box
+            class="no-print"
+            [dataSource]="tipoPagoItems"
+            formControlName="tipoTransaccion"
+            [(value)]="tipoPago"
+            displayExpr="text"
+            valueExpr="value"
+            placeholder="Seleccione tipo de pago"
+            [searchEnabled]="true"
+            stylingMode="outlined"
+          >
+          </dx-select-box>
+        </div>
+        @if (tipoPago === 1 || tipoPago === 2) {
+        <div class="form-section reference-number">
+          <dx-text-box
+            class="no-print"
+            [(value)]="numeroReferencia"
+            formControlName="referencia"
+            placeholder="Número de referencia"
+            maxLength="30"
+            stylingMode="outlined"
+          >
+          </dx-text-box>
+        </div>
+        }
+      </div>
+      <div>
+        <div>
+          <div class="textarea no-print">
+            <dx-text-area label="Comentario"  formControlName="comentario"></dx-text-area>          
+          </div>
+        </div>       
+      </div>
+
+      <div class="payment-section">
+        <div class="form-section payment-type only-print">
+          <label>Tipo de Pago: <strong>{{ tipoPago | tipoPago }}</strong></label>
+          &nbsp; &nbsp; &nbsp; @if(tipoPago === 1 || tipoPago ===2){
+          <label
+            >Numero Referencia: <strong>{{ numeroReferencia }}</strong></label
+          >
+          }
+        </div>             
+      </div>
+      <div class="textarea only-print">
+        <p>Comentarios: {{pagoForm.value.comentario}}</p>
+      </div>  
+      <div class="recibo-footer no-print">
+        <dx-button
+          text="Confirmar Pago"
+          type="default"
+          icon="check"
+          [width]="200"
+          (onClick)="confirmarPago()"
+          [disabled]="!onPagoValidation()"
+        >
+        </dx-button>
+      </div>
+
+      <div class="receipt-message">
+        <p>Gracias por su pago. Este recibo es su comprobante oficial.</p>
+        <p class="contact-info">
+          Para cualquier consulta, comuníquese al:
+          <strong>+504 2234-5678</strong>
+        </p>
+        <p class="contact-info">
+          email: <strong>{{ "servicioalcliente@lionacademy.com" }}</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+</dx-popup>

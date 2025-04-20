@@ -1,0 +1,29 @@
+:host {
+    flex-direction: column;
+    display: flex;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .layout-header {
+    z-index: 1505;
+    // margin-left: -10px;
+    // margin-right: -8px;
+    // margin-top: -5px;
+  }
+  .breadcrumb {
+    width: 107%;
+    // border: 1px solid;
+    height: 30px;
+    margin-left: -35px;
+    margin-top: -20px;
+    // margin-right: -100px;
+    transition: all 0.3s ease;  /* Añadimos una transición para suavizar el movimiento */
+  }
+  
+  .breadcrumb.breadcrumb-moved {
+    margin-left: -35px;  /* Ajusta el margen según cómo desees moverlo */
+    margin-right: -30px;
+    /* Aquí puedes ajustar el resto de las propiedades si es necesario */
+  }
+  

@@ -1,0 +1,23 @@
+.table-alumns{
+    font-size: 10px;
+}
+
+
+.dx-data-grid-alumns {
+    font-family: Arial, sans-serif;
+    font-size: 10px !important;
+    color: #333;
+  }
+
+  .dx-data-row .dx-cell {
+    font-weight: bold;
+    font-size: 16px;
+    color: darkred;
+  }
+  
+  /* Cambiar la fuente de los encabezados */
+  .dx-header-row .dx-cell {
+    font-weight: bold;
+    font-size: 18px;
+    color: #000;
+  }

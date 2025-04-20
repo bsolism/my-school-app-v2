@@ -1,0 +1,72 @@
+<div class="auth-main">
+    <div class="auth-container">
+        <div class="auth-header">
+            <a href="javascript:"><img src="assets/logo2.png" alt="logo" width="50px" height="50px"/></a>            
+        </div>
+        <div class="auth-form-container">
+            <div class="auth-form">
+                <div class="auth-form-header">
+                    <h3><b>Login</b></h3>
+                    <!-- <a [routerLink]="['/register']" class="link-primary">Don't have an account?</a>                     -->
+                </div>
+                <div class="auth-form-inputs">
+                    <form [formGroup]="loginForm">
+                        <div class="form-field">
+                            <dx-text-box stylingMode="outlined" labelMode="floating" label="User"
+                                formControlName="userName" width="100%">
+                                <dx-validator>
+                                <dxi-validation-rule
+                                    type="required"
+                                    message="User is required"
+                                ></dxi-validation-rule>
+                                </dx-validator>
+                            </dx-text-box>
+                        </div> 
+                        <div class="form-field">
+                            <dx-text-box
+                                value="password"
+                                formControlName="password"
+                                placeholder="password"
+                                [inputAttr]="{ 'aria-label': 'Password' }"
+                                stylingMode="filled"
+                                [(mode)]="passwordMode"
+                                style="width: 100%;"
+                            >
+                            <dxi-button
+                              name="today"
+                              location="after"
+                              [options]="passwordButton"
+                            ></dxi-button>
+                          </dx-text-box>
+                        </div> 
+                        <div class="form-field">
+                            <div class="check-bottom">                                
+                                <dx-check-box
+                                    stylingMode="outlined"
+                                    text="Keep me sign in"
+                                    [value]="rememberMe"
+                                    (onValueChanged)="rememberMe = $event.value"
+                                    [elementAttr]="{ 'aria-label': 'Checked' }"
+                                ></dx-check-box>
+                            </div>
+                            <a href="javascript:">Forgot Password?</a>  
+                        </div>
+                        <div class="form-field">
+                          <dx-button
+                            stylingMode="contained"
+                            text="Ingresar"
+                            type="default"
+                            width="100%"
+                            [useSubmitBehavior]="true"
+                            (onClick)="login()"
+                            >
+                          </dx-button>  
+                        </div>                           
+                    </form>                    
+                </div>
+
+            </div>
+        </div>
+
+    </div>    
+</div>

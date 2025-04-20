@@ -1,0 +1,102 @@
+<ng-container>
+    <app-container icon="bookmarks" title="Grado" [sizeIcon]="25"></app-container>
+        <div class="form-course">
+            <form [formGroup]="courseForm">
+                <div class="row">
+                    <dx-text-box stylingMode="outlined" labelMode="floating" label="Nombre Grado"
+                        formControlName="courseName" style="width: 25%;">
+                    </dx-text-box> 
+                    <dx-text-box stylingMode="outlined" labelMode="floating" label="Descripción"
+                        formControlName="courseDescription" style="width: 25%; margin-left: 10px;">
+                    </dx-text-box> 
+                </div>
+                <div class="row">
+                    <div class="label-check">¿Establecer limite de alumnos?</div>
+                    <div class="dx-check">
+                        <dx-check-box
+                            [(value)]="hasLimit"
+                            formControlName="hasLimit"
+                            [elementAttr]="{ 'aria-label': 'Checked' }"
+                        ></dx-check-box>
+                    </div>
+                    <dx-number-box stylingMode="outlined" labelMode="floating" 
+                        label="Limite" [showSpinButtons]="true" [readOnly]="!hasLimit"
+                        formControlName="limit" style="margin-left: 10px; width: 100px; height: 30px;"
+                        [inputAttr]="{ 'aria-label': 'With Spin And Buttons' }"
+                    ></dx-number-box>
+                </div>
+                <div class="row">
+                    <!-- <div class="label-check">¿Activo?</div>
+                    <div class="dx-check">
+                        <dx-check-box
+                            formControlName="isActive"
+                            [elementAttr]="{ 'aria-label': 'Checked' }"
+                        ></dx-check-box>
+                    </div> -->
+                    <div class="label-check">¿Tiene cursos previos?</div>
+                    <div class="dx-check">
+                        <dx-check-box
+                            [(value)]="hasPreviewCourse"
+                            formControlName="hasPreviewCourse"
+                            [elementAttr]="{ 'aria-label': 'Checked' }"
+                        ></dx-check-box>
+                    </div>
+                    <dx-tag-box
+                        [items]="coursesSource"
+                        formControlName="cursosPrev"
+                        [searchEnabled]="true"
+                        displayExpr="courseName"
+                        valueExpr="id"
+                        width="40%"
+                        [readOnly]="!hasPreviewCourse"
+                        style="margin-left: 10px;"
+                        [inputAttr]="{ 'aria-label': 'Product' }"
+                    >
+                    </dx-tag-box>
+                    <div class="button">
+                        <dx-button
+                          stylingMode="outlined"
+                          text="Guardar"
+                          type="default"
+                          [width]="120"
+                          style="border: 1px solid;"
+                          [useSubmitBehavior]="true"
+                          (onClick)="onSaveClick()">
+                        </dx-button>        
+                      </div>                    
+                </div>
+                <div class="row">
+                    <div class="label-check">¿Activo?</div>
+                    <div class="dx-check">
+                        <dx-check-box
+                            formControlName="isActive"
+                            [elementAttr]="{ 'aria-label': 'Checked' }"
+                        ></dx-check-box>
+                    </div>                    
+                </div>
+            </form>            
+            
+        </div>
+        <div class="grid">
+            <dx-data-grid [dataSource]="coursesSource" height="65vh"
+                (onRowClick)="onSelection($event)">
+                <dxo-header-filter [visible]="true" [allowSearch]="false"></dxo-header-filter>
+                <dxo-filter-row [visible]="true"></dxo-filter-row>
+                <dxo-scrolling mode="virtual"></dxo-scrolling>
+                <dxo-export  [allowExportSelectedData]="true" [enabled]="true"  fileName="fileName"></dxo-export>
+                <dxo-selection mode="single"></dxo-selection>                
+                <dxi-column dataField="courseName" dataType="string" caption="Nombre"></dxi-column>
+                <dxi-column dataField="courseDescription" dataType="string" caption="Nombre"></dxi-column>
+                <dxi-column dataField="cursosPrevs" dataType="string" caption="Grados requisitos" cellTemplate="requisito">
+                    <div *dxTemplate="let data of 'requisito'" >
+                        <dx-tag-box *ngIf="data.data.cursosPrevs.length > 0" [value]="data.data.cursosPrevs" displayExpr="courseName" [disabled]="true"
+                        [maxDisplayedTags]="1" [inputAttr]="{ 'aria-label': 'description' }" [style]="{'width': '100%'}">
+                    </dx-tag-box>       
+                    </div>
+                </dxi-column>                
+                <dxi-column dataField="hasLimit" editorType="dxCheckBox" caption="¿Tiene limite?" width="160"></dxi-column>
+                <dxi-column dataField="limit" dataType="number" caption="Limite" width="100"></dxi-column>
+                <dxi-column dataField="isActive" editorType="dxCheckBox" caption="¿Activo?" width="140"></dxi-column>
+            </dx-data-grid>
+        </div>    
+</ng-container>
