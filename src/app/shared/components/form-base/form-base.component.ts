@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { DisplayComponent } from '../display/display.component';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-form-base',
@@ -8,7 +10,17 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
   template: `<div></div>`,
   styleUrls: []
 })
-export abstract class FormBaseComponent {
+export abstract  class FormBaseComponent {
+  isMobile = false;
+
+  constructor(public breakpointObserver?: BreakpointObserver) {
+    if (this.breakpointObserver) {
+      this.breakpointObserver.observe([Breakpoints.Handset])
+        .subscribe(result => {
+          this.isMobile = result.matches;
+        });
+    }
+  }
 
   dniFormatter(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {

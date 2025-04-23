@@ -10,13 +10,14 @@ import {
 } from 'devextreme-angular';
 import { Alumno } from '../interfaces/alumn.interface';
 import { RegisterService } from '../services/register.service';
-import { Router } from '@angular/router';
 import { AlertService } from '../../../shared/services/alert.service';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DxButtonModule, DxButtonTypes } from 'devextreme-angular/ui/button';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
 import { CommonModule } from '@angular/common';
+import { DisplayComponent } from '../../../shared/components/display/display.component';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 export const DEFAULT_LAT = 14.085028;
 export const DEFAULT_LON = -87.199685;
@@ -55,7 +56,7 @@ L.Marker.prototype.options.icon = iconDefault;
   styleUrl: './transport.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TransportComponent implements OnInit  {
+export class TransportComponent extends DisplayComponent implements OnInit  {
   dataSource: Array<Alumno> = [];
   popupVisible: boolean = false;
   tipoViajeSource: string[] = [
@@ -97,8 +98,9 @@ export class TransportComponent implements OnInit  {
   }; 
 
   constructor(
-    private service: RegisterService,  private _alert: AlertService, private cdr: ChangeDetectorRef
-  ) {}
+    private service: RegisterService,  private _alert: AlertService, private cdr: ChangeDetectorRef,
+    breakpointObserver: BreakpointObserver  
+  ) { super(breakpointObserver); }
 
   async ngOnInit(): Promise<void> {
     await this._alert.loading('Cargando registros');
@@ -296,11 +298,11 @@ export class TransportComponent implements OnInit  {
   }
 
   Columns: any[] = [
-    { dataField: 'alumno.id', caption: 'Código', width: 100, allowEditing: false },
+    { dataField: 'alumno.id', caption: 'Id', width: this.isMobile? 40:80, allowEditing: false },
     {
       dataField: 'alumno.fullName',
       caption: 'Nombre',
-      width: 350,
+      width: this.isMobile? 140:350,
       allowEditing: false
     },
     { dataField: 'address', caption: 'Dirección', allowEditing: false },

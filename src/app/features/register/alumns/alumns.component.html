@@ -1,4 +1,14 @@
-<ng-container>
+<div>
+    @if(isMobile) {
+        <ng-container *ngTemplateOutlet="mobileTemplate"></ng-container>
+    } 
+    @if(!isMobile) {
+        <ng-container *ngTemplateOutlet="desktopTemplate"></ng-container>
+    }
+</div>
+
+<ng-template #desktopTemplate>
+    <app-container icon="bookmarks" title="Alumnos" [sizeIcon]="25"></app-container>
     <div class="table-alumns">
         <dx-data-grid [columns]="Columns" [dataSource]="dataSource || []"
         (onToolbarPreparing)="onToolbarPreparing($event)">
@@ -8,4 +18,20 @@
             <dxo-export  [allowExportSelectedData]="true" [enabled]="true"  fileName="fileName"></dxo-export>
         </dx-data-grid>
     </div>
-</ng-container>
+</ng-template>
+<ng-template #mobileTemplate>
+    <app-container icon="bookmarks" title="Alumnos" [sizeIcon]="25"></app-container>
+    <div class="table-alumns">
+        <dx-data-grid [columns]="Columns" [dataSource]="dataSource || []"
+        (onToolbarPreparing)="onToolbarPreparing($event)"
+        height="auto"
+        [columnAutoWidth]="true"
+        [wordWrapEnabled]="true">
+        <dxo-scrolling mode="standard" showScrollbar="always"></dxo-scrolling>
+            <!-- <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true" placeholder="Buscar..."></dxo-search-panel> -->
+            <dxo-header-filter [visible]="true" [allowSearch]="false"></dxo-header-filter>
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+            <dxo-export  [allowExportSelectedData]="true" [enabled]="true"  fileName="fileName"></dxo-export>
+        </dx-data-grid>
+    </div>
+</ng-template>

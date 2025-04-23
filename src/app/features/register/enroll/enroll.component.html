@@ -1,8 +1,14 @@
-<ng-container>
+<div>
+    @if(isMobile) {
+        <ng-container *ngTemplateOutlet="mobileTemplate"></ng-container>
+    }
+    @if(!isMobile) {
+        <ng-container *ngTemplateOutlet="desktopTemplate"></ng-container>
+    }
+</div>
+
+<ng-template #desktopTemplate>
     <app-container icon="bookmarks" title="Matricular" [sizeIcon]="25"></app-container>
-    <!-- <div class="unavaliable" *ngIf="!isMatriculaOpen">
-        Debe existir una matricula abierta
-    </div> -->
     <div class="form-container" >
         <div class="form-row">
             <dx-text-box stylingMode="outlined" labelMode="floating" label="Nombre | DNI | Code"
@@ -37,9 +43,8 @@
                 >
             </dx-button> 
         </div>
-
     </div>
-</ng-container>
+</ng-template>
 <dx-popup
   [width]="560"
   [height]="520"
@@ -81,40 +86,6 @@
                 (valueChange)="onValueChangedGrade($event)">
             </dx-select-box>
         </div>
-        <!-- <div class="row-popup">
-            <div>Tipo Matrícula</div>
-            <dx-select-box
-                placeholder="Tipo"
-                formControlName="nextGrade"
-                [items]="['Ordinaria', 'Extraordinaria']"
-                [inputAttr]="{ 'aria-label': 'Search Mode' }"
-                class="select-popup">
-            </dx-select-box>
-        </div> -->
-        <!-- <div class="row-popup">
-            <div>Defina primera mensualidad</div>
-            <dx-select-box
-                placeholder="Tipo"
-                formControlName="nextGrade"
-                [items]="['Ordinaria', 'Extraordinaria']"
-                [inputAttr]="{ 'aria-label': 'Search Mode' }"
-                class="select-popup">
-            </dx-select-box>
-        </div> -->
-        <!-- <div class="row-popup">
-            <div>¿Requiere Transporte?</div>
-            <div class="dx-check">
-                <dx-check-box
-                    formControlName="requireTransport"
-                    style="margin-left: 10px;"
-                    [elementAttr]="{ 'aria-label': 'Checked' }"
-                ></dx-check-box>
-            </div>       
-        </div> -->
-        <!-- <div class="row-popup">
-            <div>Total</div>
-            <div>{{ precioGrado | currency:'LPS ':'symbol':'1.2-2' }}</div>       
-        </div> -->
       </div>
     </div>
   </div>
@@ -127,3 +98,59 @@
     [options]="bookButtonOptions">
   </dxi-toolbar-item>
 </dx-popup>
+<ng-template #mobileTemplate>
+    <app-container icon="bookmarks" title="Matricular" [sizeIcon]="25"></app-container>
+
+<div class="form-mobile">
+  <!-- Fila 1: Buscador -->
+  <div class="row-mobile-horizontal">
+    <dx-text-box 
+      stylingMode="outlined" 
+      labelMode="floating" 
+      label="Nombre | DNI | Code"
+      [(value)]="term">
+    </dx-text-box>
+    <dx-button 
+      icon="search" 
+      style="width: 30px; height: 30px; margin-top: 5px;" 
+      (onClick)="searchAlumn()">
+    </dx-button>
+  </div>
+
+  <!-- Fila 2: Tabla -->
+  <div class="row-mobile">
+    <dx-data-grid 
+      [dataSource]="filteredAlumn" 
+      [columnAutoWidth]="true"
+      [wordWrapEnabled]="true"
+      height="auto">
+      <dxo-selection mode="single" selectAllMode="page"></dxo-selection>
+      <dxo-scrolling mode="standard" showScrollbar="always"></dxo-scrolling>
+      <dxi-column dataField="id" dataType="string" caption="Id" width="40" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="fullName" dataType="string" caption="Nombre" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="dni" dataType="string" caption="DNI" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="lastGrade" caption="Grado Anterior" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="nextGrade" caption="Grado Actual" [allowEditing]="true">
+        <dxo-lookup
+          [dataSource]="grados"
+          valueExpr="id"
+          displayExpr="courseName">
+        </dxo-lookup>
+      </dxi-column>
+      <dxi-column dataField="state" caption="Estado"></dxi-column>
+    </dx-data-grid>
+  </div>
+
+  <!-- Fila 3: Botón -->
+  <div class="row-mobile button-matricular-mobile">
+    <dx-button
+      stylingMode="contained"
+      text="Matricular"
+      type="default"
+      style="width: 100%;"
+      [useSubmitBehavior]="true"
+      (onClick)="onMatricula()">
+    </dx-button>
+  </div>
+</div>
+</ng-template>

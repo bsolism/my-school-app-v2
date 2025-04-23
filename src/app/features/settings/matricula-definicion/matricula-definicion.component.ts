@@ -7,6 +7,7 @@ import { CourseService } from '../services/course.service';
 import { Course, CursoMatricula } from '../../interfaces/course.interface';
 import { AlertService } from '../../../shared/services/alert.service';
 import { FormBaseComponent } from '../../../shared/components/form-base/form-base.component';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-matricula-definicion',
@@ -50,8 +51,8 @@ export class MatriculaDefinicionComponent extends FormBaseComponent implements O
     }),
     grados: new FormControl<CursoMatricula[]>([])      
   })
-  constructor(private cursoService: CourseService, private _alert: AlertService){
-    super()
+  constructor(private cursoService: CourseService, private _alert: AlertService, breakpointObserver: BreakpointObserver){
+    super(breakpointObserver)
   }
 
   ngOnInit(): void {

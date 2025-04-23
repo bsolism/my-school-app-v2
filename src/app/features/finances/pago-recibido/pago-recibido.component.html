@@ -1,4 +1,13 @@
-<ng-container>
+<div>
+  @if(isMobile) {
+    <ng-container *ngTemplateOutlet="mobileTemplate"></ng-container>
+  } 
+  @if(!isMobile) {
+    <ng-container *ngTemplateOutlet="desktopTemplate"></ng-container>
+  }
+</div>
+
+<ng-template #desktopTemplate>
   <app-container icon="bookmarks" title="Pagos" [sizeIcon]="25"></app-container>
   <div class="form-container">
     <div class="form-row">
@@ -87,7 +96,7 @@
       </dx-button>
     </div>
   </div>
-</ng-container>
+</ng-template>
 <dx-popup
   [(visible)]="popupVisible"
   [width]="600"
@@ -273,3 +282,73 @@
     </div>
   </div>
 </dx-popup>
+
+<ng-template #mobileTemplate>
+  <app-container icon="bookmarks" title="Pagos" [sizeIcon]="25"></app-container>
+
+<div class="form-mobile">
+  <!-- Buscador -->
+  <div class="row-mobile-horizontal">
+    <dx-text-box
+      stylingMode="outlined"
+      labelMode="floating"
+      label="Nombre | DNI | Code"
+      [(value)]="term"
+      (onEnterKey)="searchAlumn()">
+    </dx-text-box>
+    <dx-button
+      icon="search"
+      style="margin-left: 10px; width: 40px; height: 40px"
+      (onClick)="searchAlumn()">
+    </dx-button>
+  </div>
+
+  <!-- Info alumno -->
+  <div class="row-mobile alumn-info-mobile">
+    <label>Código | Nombre:</label>
+    <span>{{ selectedAlumn?.id }} - {{ selectedAlumn?.fullName }}</span>
+  </div>
+  <div class="row-mobile alumn-info-mobile">
+    <label>Identidad:</label>
+    <span>{{ selectedAlumn?.dni }}</span>
+  </div>
+  <div class="row-mobile alumn-info-mobile">
+    <label>Grado:</label>
+    <span>{{ selectedAlumn?.gradoName }}</span>
+  </div>
+
+  <!-- Grid -->
+  <div class="row-mobile">
+    <dx-data-grid 
+      [dataSource]="pagosSource"
+      [columnAutoWidth]="true"
+      [wordWrapEnabled]="true"
+      height="auto">
+
+      <dxi-column dataField="descripcion" caption="Descripción" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="monto" caption="Mensualidad" [allowEditing]="false" [customizeText]="customizeCurrencyDisplay"></dxi-column>
+      <dxi-column dataField="montoTransporte" caption="Transporte" [allowEditing]="false" [customizeText]="customizeCurrencyDisplay"></dxi-column>
+      <dxi-column dataField="fechaLimite" caption="Fecha Límite" dataType="date" format="dd/MM/yyyy" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="estado" caption="Estado" [allowEditing]="false" [calculateCellValue]="getNombreEstado"></dxi-column>
+      <dxi-column caption="Acción" [width]="100" cellTemplate="checkCell"></dxi-column>
+
+      <div *dxTemplate="let data of 'checkCell'">
+        <dx-check-box [(value)]="data.data.seleccionado" [disabled]="data.data.estado === 1"></dx-check-box>
+      </div>
+    </dx-data-grid>
+  </div>
+
+  <!-- Botón -->
+  <div class="row-mobile button-pagos-mobile">
+    <dx-button
+      text="Registrar Pago"
+      icon="save"
+      type="default"
+      stylingMode="contained"
+      style="width: 100%"
+      (onClick)="onShowPopup()">
+    </dx-button>
+  </div>
+</div>
+
+</ng-template>

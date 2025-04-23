@@ -4,21 +4,27 @@ import { Alumno } from '../interfaces/alumn.interface';
 import { DxDataGridModule } from 'devextreme-angular/ui/data-grid';
 import { Router } from '@angular/router';
 import { AlertService } from '../../../shared/services/alert.service';
+import { DisplayComponent } from '../../../shared/components/display/display.component';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { AppContainerComponent } from '../../../layouts/app-container/app-container.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-alumns',
   standalone: true,
-  imports: [DxDataGridModule],
+  imports: [DxDataGridModule, AppContainerComponent, CommonModule],
   templateUrl: './alumns.component.html',
   styleUrl: './alumns.component.scss'
 })
-export class AlumnsComponent implements OnInit {
+export class AlumnsComponent extends DisplayComponent implements OnInit{
 
   dataSource: Array<Alumno> =[];
 
   // columns= this.Columns;
 
-  constructor(private service: RegisterService, private router: Router, private _alert: AlertService){}
+  constructor(private service: RegisterService, private router: Router, private _alert: AlertService,
+    breakpointObserver: BreakpointObserver
+  ){ super(breakpointObserver) }
 
   async ngOnInit(): Promise<void> {
     this._alert.loading('cargando...');
@@ -70,7 +76,7 @@ export class AlumnsComponent implements OnInit {
   }
 
   Columns:any[] = [
-    { dataField: 'id', caption: 'Código',width: 100, allowEditing: false},
+    { dataField: 'id', caption: 'Id',width: 60, allowEditing: false},
     { dataField: 'fullName', caption: 'Nombre',width: 250, allowEditing: false,
       calculateCellValue: (row: any) => {
         return `${row.firstName} ${row.secondName} ${row.lastName} ${row.secondLastName}`; 

@@ -269,3 +269,64 @@
 .textarea{
   width: 99%;
 }
+
+.form-mobile {
+  padding: 10px;
+  background-color: #f9f9f9; 
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.row-mobile {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 15px;
+  overflow-x: auto; 
+
+  > *:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.row-mobile-horizontal {
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  width: 100%;
+  margin-bottom: 15px;
+
+  > dx-number-box {
+    flex: 1; 
+    margin-right: 10px; 
+  }
+
+  > dx-button {
+    flex-shrink: 0; 
+  }
+}
+
+.label-mobile {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.dx-check-mobile {
+  display: flex;
+  align-items: center;
+}
+
+.row-mobile dx-data-grid {
+  font-size: 12px;
+}
+
+/* Opcional: si deseas que todos los controles dx se adapten al 100% del contenedor en móvil */
+.form-mobile dx-number-box,
+.form-mobile dx-text-box,
+.form-mobile dx-date-range-box,
+.form-mobile dx-select-box {
+  width: 100% !important;
+}

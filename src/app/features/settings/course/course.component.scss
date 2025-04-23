@@ -24,3 +24,75 @@
         }
     }
 }
+
+.form-course-mobile {
+    padding: 10px;
+    background-color: #f9f9f9;
+  
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .row-mobile {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-x: auto;
+  
+      > *:not(:last-child) {
+        margin-bottom: 10px;
+      }
+    }
+
+    .row-mobile-horizontal {
+        display: flex;
+        flex-direction: row; 
+        align-items: center; 
+        width: 100%;
+        margin-bottom: 15px;
+        justify-content: space-between;
+      
+        > dx-number-box {
+          flex: 1; 
+          margin-right: 10px; 
+        }
+      
+        > dx-button {
+          flex-shrink: 0; 
+        }
+      }
+  
+    .label-mobile {
+      font-size: 14px;
+      margin: 5px 0;
+    }
+  
+    .dx-check-mobile {
+      display: flex;
+      align-items: center;
+    }
+  
+    .button-mobile {
+      display: flex;
+      justify-content: center;
+    }
+  
+    dx-number-box,
+    dx-text-box,
+    dx-select-box,
+    dx-tag-box,
+    dx-date-range-box,
+    dx-check-box {
+      width: 100% !important;
+    }
+  }
+  
+  .grid-mobile {
+    padding: 10px;
+    dx-data-grid {
+      font-size: 12px;
+    }
+  }
+  

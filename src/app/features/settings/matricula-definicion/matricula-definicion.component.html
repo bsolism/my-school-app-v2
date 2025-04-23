@@ -1,4 +1,12 @@
-<ng-container>
+<div>
+    @if(isMobile) {
+        <ng-container *ngTemplateOutlet="mobileTemplate"></ng-container>
+    }
+    @if(!isMobile) {
+        <ng-container *ngTemplateOutlet="desktopTemplate"></ng-container>
+    }
+</div>
+<ng-template #desktopTemplate>
     <app-container icon="bookmarks" title="Definición matrículas" [sizeIcon]="25"></app-container>
     <div class="form">
         <form [formGroup]="matriculaForm">
@@ -76,7 +84,148 @@
                 </dx-data-grid>
             </div>
         </form>
-    </div>
+    </div>            
+</ng-template>
+<ng-template #mobileTemplate>
+    <app-container icon="bookmarks" title="Definición matrículas" [sizeIcon]="25"></app-container>
+    <div class="form-mobile">
+      <form [formGroup]="matriculaForm">
+        <!-- Fila 1: Buscar por año -->
+        <div class="row-mobile-horizontal">
+          <dx-number-box 
+            stylingMode="outlined" 
+            labelMode="floating" 
+            label="Buscar por año"
+            [(value)]="yearSearch" 
+            type="number">
+          </dx-number-box>
+          <dx-button 
+            icon="search" 
+            style="width: 30px; height: 30px; margin-top: 5px;" 
+            (onClick)="findByYear()">
+          </dx-button>
+        </div>
         
-            
-</ng-container>
+        <!-- Fila 2: Periodo Matrícula -->
+        <div class="row-mobile">
+          <dx-text-box 
+            stylingMode="outlined" 
+            labelMode="floating" 
+            label="Periodo Matrícula"
+            formControlName="name" 
+            style="width: 100%;">
+          </dx-text-box>
+          <dx-date-range-box 
+            stylingMode="outlined" 
+            labelMode="floating"
+            formGroupName="dateRange"
+            [value]="matriculaDate"
+            style="margin-top: 5px; width: 100%;"
+            startDateLabel="Fecha Inicio"
+            endDateLabel="Fecha Final"
+            displayFormat="dd/MM/yyyy"
+            (onValueChanged)="currentValueChanged($event, 'dateRange')">
+          </dx-date-range-box>
+        </div>
+        
+        <!-- Fila 3: Año lectivo -->
+        <div class="row-mobile">
+          <dx-select-box
+            placeholder="Año lectivo"
+            formControlName="yearEscolar"
+            [items]="yearsEscolar"
+            style="width: 100%;">
+          </dx-select-box>
+          <dx-date-range-box 
+            stylingMode="outlined" 
+            labelMode="floating"
+            style="margin-top: 5px; width: 100%;"
+            startDateLabel="Fecha Inicio"
+            endDateLabel="Fecha Final"
+            [value]="yearEscolar"
+            displayFormat="dd/MM/yyyy"
+            (onValueChanged)="currentValueChanged($event, 'yearEscolarDates')">
+          </dx-date-range-box>
+        </div>
+        
+        <!-- Fila 4: Estado y Activo -->
+        <div class="row-mobile-horizontal">
+          <dx-select-box
+            placeholder="Estado"
+            formControlName="isOpen"
+            displayExpr="name"
+            valueExpr="id"
+            [items]="estadoMatricula"
+            label="Estado"
+            style="width: 100%;">
+          </dx-select-box>
+          <div class="label-mobile">¿Activo?</div>
+          <div class="dx-check-mobile">
+            <dx-check-box
+              style="margin-left: 10px;"
+              formControlName="isActive"
+              [elementAttr]="{ 'aria-label': 'Checked' }">
+            </dx-check-box>
+          </div>
+        </div>
+        
+        <!-- Fila 5: DataGrid -->
+        <div class="row-mobile">
+          <dx-data-grid 
+            [dataSource]="setDataSourseCursos" 
+            (onToolbarPreparing)="onToolbarPreparing($event)"
+            [columnAutoWidth]="true"
+            [wordWrapEnabled]="true"
+            height="auto">
+            <dxo-editing mode="row" [allowUpdating]="true" [useIcons]="true"></dxo-editing>
+            <dxo-paging [pageSize]="5"></dxo-paging>
+            <dxo-pager 
+              [showPageSizeSelector]="true" 
+              [allowedPageSizes]="[5, 10, 20]"
+              [showInfo]="true">
+            </dxo-pager>
+            <dxo-scrolling mode="standard" showScrollbar="always"></dxo-scrolling>
+            <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+            <dxo-export [allowExportSelectedData]="true" [enabled]="true" fileName="fileName"></dxo-export>
+            <dxi-column 
+              dataField="courseName" 
+              dataType="string" 
+              caption="Nombre" 
+              [allowEditing]="false"
+              [minWidth]="100"
+              [width]="'auto'">
+            </dxi-column>
+            <dxi-column 
+              dataField="courseDescription" 
+              dataType="string" 
+              caption="Descripción" 
+              [allowEditing]="false"
+              [width]="'auto'">
+            </dxi-column>
+            <dxi-column 
+              dataField="limit" 
+              dataType="string" 
+              caption="Limite" 
+              [width]="'auto'"
+              [allowEditing]="false">
+            </dxi-column>
+            <dxi-column 
+              dataField="precio" 
+              dataType="number" 
+              caption="Matricula"
+              [format]="{ type: 'fixedPoint', precision: 2 }" 
+              [customizeText]="formatCurrency">
+            </dxi-column>
+            <dxi-column 
+              dataField="mensualidad" 
+              dataType="number" 
+              caption="Mensualidad"
+              [format]="{ type: 'fixedPoint', precision: 2 }" 
+              [customizeText]="formatCurrency">
+            </dxi-column>
+          </dx-data-grid>
+        </div>        
+      </form>
+    </div>            
+  </ng-template>
+  

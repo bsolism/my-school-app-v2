@@ -19,12 +19,14 @@ import {
   TipoPlanilla,
 } from '../interfaces/alumno-matriculado.interface';
 import { AlertService } from '../../../shared/services/alert.service';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { AppInfoService } from '../../../shared/services/app-info.service';
 import html2pdf from 'html2pdf.js';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PagoDetalle } from '../interfaces/alumno-pago.interface';
 import { TipoPagoPipe } from '../../../shared/pipes/tipo-pago.pipe';
+import { DisplayComponent } from '../../../shared/components/display/display.component';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 const imageUrl = '../../../../assets/logo2.png';
 
@@ -33,6 +35,7 @@ const imageUrl = '../../../../assets/logo2.png';
   standalone: true,
   imports: [
     AppContainerComponent,
+    CommonModule,
     DxDataGridModule,
     DxTextBoxModule,
     DxButtonModule,
@@ -49,7 +52,7 @@ const imageUrl = '../../../../assets/logo2.png';
   templateUrl: './pago-recibido.component.html',
   styleUrl: './pago-recibido.component.scss',
 })
-export class PagoRecibidoComponent implements OnInit {
+export class PagoRecibidoComponent extends DisplayComponent implements OnInit {
 
   term: string = '';
   allAlumns: AlumnoMatriculadoDto[] = [];
@@ -74,7 +77,9 @@ export class PagoRecibidoComponent implements OnInit {
 
   private readonly formBuilder = inject(FormBuilder);
 
-  constructor(private financeService: FinanceService, private alertService: AlertService, public appInfo: AppInfoService ) {
+  constructor(private financeService: FinanceService, private alertService: AlertService, 
+    public appInfo: AppInfoService, breakpointObserver: BreakpointObserver) {
+    super(breakpointObserver);
     this.pagoForm = this.initPagoForm();
     this.initTipoPagoItems();
 

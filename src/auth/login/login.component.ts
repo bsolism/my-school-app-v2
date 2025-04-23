@@ -13,6 +13,7 @@ import { CurrentUser } from '../../app/shared/interfaces/current-user.interface'
 import { jwtDecode } from "jwt-decode";
 import { Menu } from '../../app/shared/interfaces/menu.interface';
 import { UserStoreService } from '../../app/shared/services/user-store.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 const clave = environment.encryptionKey;
 
@@ -28,6 +29,7 @@ const clave = environment.encryptionKey;
 export class LoginComponent { 
 
   rememberMe= false;
+  isMobile = false;
 
   readonly loginForm = inject(FormBuilder).group({
     userName: ['', Validators.required],
@@ -36,7 +38,13 @@ export class LoginComponent {
   passwordMode: DxTextBoxTypes.TextBoxType = 'password';
   constructor(private cdr: ChangeDetectorRef, private readonly auth: AuthService, 
     private readonly _alert: AlertService, private userStore: UserStoreService,
-  private readonly router: Router) {}
+    private readonly router: Router, private breakpointObserver: BreakpointObserver) {
+      this.breakpointObserver.observe([Breakpoints.Handset])
+      .subscribe(result => {
+        console.log(result);
+        this.isMobile = result.matches;
+      });
+    }
 
   passwordButton: DxButtonTypes.Properties = {
     icon: 'eyeopen',

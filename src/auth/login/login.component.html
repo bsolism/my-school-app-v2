@@ -1,9 +1,16 @@
 <div class="auth-main">
     <div class="auth-container">
-        <div class="auth-header">
-            <a href="javascript:"><img src="assets/logo2.png" alt="logo" width="50px" height="50px"/></a>            
-        </div>
+        @if(!isMobile) {
+            <div class="auth-header" [ngClass]="{ 'mobile': !isMobile }">
+                <a href="javascript:"><img src="assets/logo2.png" alt="logo" width="50px" height="50px"/></a>            
+            </div>
+        }
         <div class="auth-form-container">
+            @if(isMobile) {
+                <div class="auth-header" [ngClass]="{ 'mobile': isMobile }">
+                    <a href="javascript:"><img src="assets/logo2.png" alt="logo" width="100px" height="100px"/></a>            
+                </div>
+            } 
             <div class="auth-form">
                 <div class="auth-form-header">
                     <h3><b>Login</b></h3>

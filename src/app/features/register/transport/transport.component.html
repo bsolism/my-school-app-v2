@@ -1,4 +1,13 @@
-<ng-container>
+<div>
+  @if(isMobile) {
+    <ng-container *ngTemplateOutlet="mobileTemplate"></ng-container>
+  }
+  @if(!isMobile) {
+    <ng-container *ngTemplateOutlet="desktopTemplate"></ng-container>
+  }
+</div>
+
+<ng-template #desktopTemplate>
     <app-container icon="airport_shuttle" title="Transporte" [sizeIcon]="25"></app-container>
     <div class="table-alumns">
         <dx-data-grid [columns]="Columns" [dataSource]="dataSource"
@@ -9,7 +18,7 @@
             <dxo-export  [allowExportSelectedData]="true" [enabled]="true"  fileName="fileName"></dxo-export>
         </dx-data-grid>
     </div>
-</ng-container>
+</ng-template>
 <dx-popup
   [width]="popupWidth"
   [height]="popupHeight"
@@ -82,3 +91,26 @@
     [options]="computedBookButtonOptions">
   </dxi-toolbar-item>
 </dx-popup>
+<ng-template #mobileTemplate>
+  <app-container icon="airport_shuttle" title="Transporte" [sizeIcon]="25"></app-container>
+  <div class="table-alumns">
+      <dx-data-grid [columns]="Columns" [dataSource]="dataSource"
+        (onToolbarPreparing)="onToolbarPreparing($event)"
+        [columnAutoWidth]="true"
+        [wordWrapEnabled]="true"
+        height="auto">
+            <dxo-editing mode="row" [allowUpdating]="true" [useIcons]="true"></dxo-editing>
+            <dxo-paging [pageSize]="5"></dxo-paging>
+            <dxo-pager 
+              [showPageSizeSelector]="true" 
+              [allowedPageSizes]="[5, 10, 20]"
+              [showInfo]="true">
+            </dxo-pager>
+            <dxo-scrolling mode="standard" showScrollbar="always"></dxo-scrolling>
+            <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+          <dxo-header-filter [visible]="true" [allowSearch]="false"></dxo-header-filter>
+          <dxo-filter-row [visible]="true"></dxo-filter-row>
+          <dxo-export  [allowExportSelectedData]="true" [enabled]="true"  fileName="fileName"></dxo-export>
+      </dx-data-grid>
+  </div>
+</ng-template>

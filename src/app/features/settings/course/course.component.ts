@@ -7,6 +7,7 @@ import { AppContainerComponent } from '../../../layouts/app-container/app-contai
 import { Course} from '../../interfaces/course.interface';
 import { CourseService } from '../services/course.service';
 import { AlertService } from '../../../shared/services/alert.service';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-course',
@@ -34,8 +35,8 @@ export class CourseComponent extends FormBaseComponent implements OnInit {
     cursosPrev: new FormControl([])
   })
 
-  constructor(private _service: CourseService, private _alert: AlertService){
-    super();
+  constructor(private _service: CourseService, private _alert: AlertService, breakpointObserver: BreakpointObserver){
+    super(breakpointObserver);
   }
 
   async ngOnInit(): Promise<void> {

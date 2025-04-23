@@ -13,6 +13,8 @@ import {CursoMatricula } from '../../interfaces/course.interface';
 import { CourseService } from '../../settings/services/course.service';
 import { DxButtonModule, DxButtonTypes } from 'devextreme-angular/ui/button';
 import { AlertService } from '../../../shared/services/alert.service';
+import { DisplayComponent } from '../../../shared/components/display/display.component';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-enroll',
@@ -34,7 +36,7 @@ import { AlertService } from '../../../shared/services/alert.service';
   templateUrl: './enroll.component.html',
   styleUrl: './enroll.component.scss'
 })
-export class EnrollComponent implements OnInit {
+export class EnrollComponent extends DisplayComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent | undefined;
 
   alumnSource:Array<Alumno> =[]
@@ -61,8 +63,9 @@ export class EnrollComponent implements OnInit {
     });
     
   constructor(private register: RegisterService, private cursoService: CourseService,
-    private _alert : AlertService
+    private _alert : AlertService, breakpointObserver: BreakpointObserver
   ){
+    super(breakpointObserver);
     this.cursoService.getMatriculaOpen().then(()=>{
       this.isMatriculaOpen = true;
     }).catch(()=>{
